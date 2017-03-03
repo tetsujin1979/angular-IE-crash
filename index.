@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+</head>
+<body>
+  <div ng-app="monthsApp">
+      <div ng-controller="MonthsCtrl as monthsCtrl">
+      	<table style="border-collapse: collapse;">
+			<colgroup>
+			  <col span="{{monthsCtrl.getSpan()}}"/>
+			</colgroup>
+			<thead>
+				<tr>
+					<th>
+					<div>
+						switch between six and twelve months:<input id="agings-open-balances-matrix-state" ng-model="monthsCtrl.sixOrTwelve" type="checkbox" ng-click="monthsCtrl.updateDisplay()">
+					</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Months</td>
+					<td ng-repeat="month in monthsCtrl.monthsToDisplay">{{month}}</td>
+				</tr>
+			</tbody>
+      	</table>
+      </div>
+  </div>
+  <script>
+    var monthsApp = angular.module('monthsApp', []);
+    monthsApp.controller('MonthsCtrl', function() {
+	  var vm = this;
+	  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+	  vm.sixOrTwelve = false;
+	  vm.updateDisplay = function() {
+	  	vm.monthsToDisplay = [];
+	  	if(vm.sixOrTwelve) {
+	  		vm.monthsToDisplay = months;
+	  	} else {
+	  		vm.monthsToDisplay = months.slice(6);
+	  	}
+	  }
+	  vm.getSpan = function () {
+	  	return (vm.sixOrTwelve) ? 13 : 7;
+	  }
+	  vm.updateDisplay();
+	});
+  </script>
+</body>
+</html>
